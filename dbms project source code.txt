@@ -1,0 +1,285 @@
+create database hostel;
+
+use hostel;
+
+show databases;
+
+drop database hostel;
+
+
+
+create table boys_hostel
+
+(hostel_id int (10) not null,
+
+no_of_rooms int (25) not null,
+
+no_of_student int (22) not null,
+
+annual_expences int (25) not null,
+
+location varchar (10) not null,
+
+primary key (hostel_id)
+);
+
+drop table boys_hostel;
+
+insert into boys_hostel values
+(1001,'25','50','2450000','attock'),
+(1002,'30','60','2740000','attock'),
+(1003,'31','62','2870000','attock'),
+(1004,'22','44','2120000','attock');
+
+select * from boys_hostel;
+
+
+This is just showing that any institute can have many hostel but we will take the only one of them and will manage the data for them.
+
+
+create table room
+
+(room_id int (10) not null,
+capacity int (10) not null,
+hostel_id int (10) not null,
+name_of_student varchar (40) not null,
+room_status varchar(10) not null,
+primary key (room_id),
+foreign key (hostel_id) references boys_hostel (hostel_id)
+);
+
+drop table room;
+
+insert into room values
+(2001,'2','1001','asad and qayyum','full'),
+(2002,'2','1001','hassan and junaid','full'),
+(2003,'2','1001','amin and atiq khan','full'),
+(2004,'2','1001','asif hussain','full'),
+(2005,'2','1001','kashif ktk and bahadur khan','full'),
+(2006,'2','1001','m.bilal','not_full'),
+(2007,'2','1001','atiq-ur-rehman and sajawal','full'),
+(2008,'2','1001','noman and m.ahsan','full'),
+(2009,'2','1001','m.danish','not_full'),
+(2010,'2','1001','khashif','not_full'),
+(2011,'2','1001','faisal khan','not_full');
+
+select * from room;
+
+
+Let us take the example that we need the data about rooms having capacity mean those which are not full so new student can get the accommodation.  
+
+
+select room_id,name_of_student from room where room_status='not_full';
+
+
+
+
+
+create table student
+
+(student_id int (10) not null,
+student_name varchar (40) not null,
+student_father_name varchar (40),
+department varchar (30) not null,
+address varchar (40) not null,
+cell_no varchar (20) not null,
+student_age int (5) not null,
+student_DOB varchar (15) not null,
+hostel_id int (10) not null,
+room_id int (10) not null,
+primary key (student_id),
+foreign key (hostel_id) references boys_hostel (hostel_id),
+foreign key (room_id) references room (room_id)
+);
+drop table student;
+
+insert into student values
+
+(101,'Asad','masood elahi','computer science','mardan cantt','03xx-xxxxxxx','20','15-june-93','1001',2001),
+
+(102,'qayyum','momen shah','management','garm chashma chatral','03xx-xxxxxxx','23','13-july-90','1001',2001),
+(103,'hassan','M.tariq','management','DI khan','03xx-xxxxxxx','21','13-feb-92','1001',2002),
+(104,'amin','m.fazal','computer science','takht bai','03xx-xxxxxxx','22','1-may-91','1001',2003),
+(105,'atiq khan','shamshat khan','computer science','hango','03xx-xxxxxxx','21','19-apri-92','1001',2003),
+(106,'juniad','m.munir','management','fatih jung','03xx-xxxxxxx','23','28-may-90','1001',2002),
+(107,'asif hussain','m.hussain','computer science','liyya gorak pur','03xx-xxxxxxx','22','19-april-91','1001',2004),
+(108,'kashif ktk','m.ijaz','computer science','karak','03xx-xxxxxxx','20','1-sep-93','1001',2005),
+(109,'bahadur khan','mazdoor khan','management','akorha khatak','03xx-xxxxxxx','21','20-sep--92','1001',2005),
+(110,'bilal','m.younas','computer science','mardan cantt','03xx-xxxxxxx','22','1-may-91','1001',2006),
+(111,'atiq-ur-rehman','saifullah','computer science','peshawer','03xx-xxxxxxx','22','1-march-91','1001',2007),
+(112,'sajawal','m.shafiq','computer science','attock','03xx-xxxxxxx','23','20-march-90','1001',2007),
+(113,'noman','m.shafiq','computer science','haripur','03xx-xxxxxxx','21','14-aug-92','1001',2008),
+(114,'m.ahsan','ijaz ahmad','computer science','pendigape','03xx-xxxxxxx','21','20-april-92','1001',2008),
+(115,'m.danish','jahanzeb khan','Electrical engineering','deer','03xx-xxxxxxx','22','2-sep-91','1001',2009),
+(116,'kashif','masood','Electrical engineering','swat','03xx-xxxxxxx','23','2-jun-90','1001',2010),
+(117,'faisal khan','allah dita','Electrical engineering','mardan cantt','03xx-xxxxxxx','21','2-sep-92','1001',2011);
+
+
+select * from student;
+
+
+
+select student_name,room_id,address,student_DOB from student where student_DOB='20-march-90';
+
+
+
+
+create table mess
+(
+mess_incharge_Id varchar (20) not null,
+monthly_avg_expence varchar (30) not null,
+mess_bf_timing varchar (45) not null,
+mess_dinner_timing varchar (45) not null,
+sunday_bf_timing varchar (45) not null,
+primary key ( mess_incharge_Id)
+);
+drop table mess;
+insert into mess values
+('9321','102400','7:00 AM to 8:45 AM','7:30 PM to 8:45 PM','9:00 AM to 11:00 AM'),
+('9322','106400','7:30 AM to 8:45 AM','7:00 PM to 8:45 PM','9:00 AM to 11:00 AM');
+ select * from mess;
+
+
+
+
+
+create table staff
+
+(emp_name varchar (40) not null,
+emp_id int (20) not null,
+emp_address varchar (50) not null,
+emp_salary int (20) not null,
+emp_cellno varchar (20) not null,
+hostel_id int (10) not null,
+emp_designation varchar (40) not null,
+mess_incharge_Id varchar (20),
+primary key (emp_id),
+foreign key (hostel_id) references boys_hostel (hostel_id),
+foreign key (mess_incharge_id) references mess (mess_incharge_id)
+);
+
+drop table staff;
+
+
+insert into staff values
+
+('habib','8321','sheen bagh attock','15000','03xx-xxxxxxx','1001','cook','9321')
+('zahid','8322','awan sharif attock','15042','03xx-xxxxxxx','1001','sweeper','null'),
+('abdul rehman','8323','sheen bagh attock','15042','03xx-xxxxxxx','1001','mess manager','9322'),
+('waqar','8324','fowara chock attock','12050','03xx-xxxxxxx','1001','sweeper','null'),
+('taimur','8325','madni chock,attock','18000','03xx-xxxxxxx','1001','technician','null'),
+('zaheen','8326','awan sharif attock','18000','03xx-xxxxxxx','1001','technician','null'),
+('mazhar','8327','sheen bagh attock','12050','03xx-xxxxxxx','1001','laundryman','null');
+
+select * from staff;
+
+
+
+
+ CREATE table visitor(
+visitor_id int (34) not null,
+student_id int (10) not null,
+visitor_name varchar (40) not null,
+visitor_time_in varchar (40) not null,
+visitor_time_out varchar (40) not null,
+student_name varchar (40) not null,
+date_entring varchar (24) not null,
+primary key (visitor_id),
+foreign key (student_id) references student (student_id)
+);
+ drop table  visitor;
+
+insert into visitor values
+(4561,'101','fahad','8:45 PM','9:25 PM','asad','1-may-14'),
+(4562,'101','zahid','8:45 PM','9:25 PM','asad','1-may-14'),
+(4563,'105','tanveer','6:50 PM','7:10 PM','atiq khan','2-april-14'),
+(4564,'106','fawad','2:00 PM','2:30 PM','junaid','2-april-14'),
+(4565,'107','ali','3:24 Pm','4:45 Pm','asif husain','10-april-14'),
+(4566,'107','noman','10:00 AM','11:00 AM','asif husain','10-april-14'),
+(4567,'110','yasir','2:23 PM','3:08 PM','bilal','20-april-14'),
+(4568,'112','umair','3:09 pM','4:43 PM','sajawal','3-may-14'),
+(4569,'114','jawad','7:00 PM','8:45 PM','m.ahsan','4-may-14'),
+(4560,'116','muazzam','8:00 AM','9:56 AM','kashif','23-april-14');
+
+select * from visitor;
+
+
+select * from visitor where student_name='asad';
+
+
+
+
+
+create table furniture(
+furniture_id varchar (34) not null,
+room_id int (10) not null,
+furniture_type varchar (40) not null,
+primary key (furniture_id),
+foreign key (room_id) references room (room_id)
+);
+
+drop table furniture;
+
+insert into furniture values
+('AK97','2001','bed'),
+('AK98','2001','study chair'),
+('AK99','2002','bed'),
+('AK10','2002','study chair'),
+('AK11','2002','study table'),
+('AK12','2003','bed'),
+('AK13','2004','study chair'),
+('AK14','2004','study table'),
+('AK15','2004','bed'),
+('AK16','2005','bed'),
+('AK17','2006','study chair'),
+('AK18','2006','study table'),
+('AK19','2006','bed'),
+('AK20','2007','bed'),
+('AK21','2007','study table'),
+('AK22','2008','bed'),
+('AK23','2008','study chair');
+
+select * from furniture;
+
+
+select room_id,furniture_id from furniture where furniture_type!='bed,study table,study chair';
+
+
+
+create table Fee
+
+(fee_month_year varchar (40) not null,
+fee_status varchar (40) not null,
+student_id int (10) not null,
+student_name varchar (40) not null,
+primary key (fee_month_year,student_id),
+foreign key (student_id) references student (student_id)
+);
+ drop table Fee;
+insert into Fee values
+
+('january-2014','paid','101','asad'),
+('february-2014','not paid','101','asad'),
+('march-2014','paid','101','asad'),
+('april-2014','not paid','101','asad'),
+('may-2013','paid','101','asad'),
+('january-2013','paid','101','asad'),
+('march-2013','piad','101','asad'),
+('dec-2014','paid','101','asad'),
+('februay-2013','not paid','101','asad'),
+('nov-2013','paid','101','asad'),
+('april-2013','not paid','101','asad'),
+('may-2014','paid','101','asad');
+
+select * from fee;
+
+Joins
+
+
+
+•Select room.no_of_student,room.room_id,room.capacity,student.student_name from room inner join student on room.room_id=student.room_id where room.no_of_student<2;
+
+
+Select student.student_name,visitor.visitor_id, visitor.visitor_name from student inner join visitor on student.student_id=visitor.student_id where visitor.student_id=101 or visitor.student_id=107;
+
+
